@@ -1,0 +1,34 @@
+{
+  "name": "furler",
+  "version": "1.0.0",
+  "description": "OK, so there is a Taylor Swift Lyrics scraper... But I like Sia way more. So I'm making a Sia Lyrics scraper for her songs xD",
+  "main": "src/Furler.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/collinsnji/Furler.git"
+  },
+  "keywords": [
+    "Sia",
+    "Lyrics",
+    "Taylor",
+    "Swift",
+    "scraper"
+  ],
+  "author": "Collin Grimm <collin.grimm@protonmail.ch> (https://collingrimm.me)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/collinsnji/Furler/issues"
+  },
+  "homepage": "https://github.com/collinsnji/Furler#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.1",
+    "mocha": "^3.5.0"
+  }
+}
