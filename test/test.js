@@ -10,10 +10,14 @@ describe('Furler Tests Running...', () => {
     let ly = new Furler();
 
     it('Should create a new instance', () => {
+        ((typeof Furler).should.equal('function'));
         expect(ly instanceof Furler).to.equal(true);
-        ((typeof ly).should.equal('object'));
     });
-    it('Should get lyrics', () => {
-       expect(ly.Lyrics().length).to.not.equal(0);
+    it('Should get and parse default lyrics', () => {
+        expect(ly.Lyrics()).not.to.throw();
+    });
+    it('Should throw if lyrics is not found', () => {
+        var lrx = new Furler('Bad Blood');
+        expect(function () { return lrx.Lyrics(); }).to.throw('Song not found');
     });
 });
