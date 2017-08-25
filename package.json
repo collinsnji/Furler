@@ -1,7 +1,7 @@
 {
   "name": "furler",
-  "version": "1.0.0",
-  "description": "OK, so there is a Taylor Swift Lyrics scraper... But I like Sia way more. So I'm making a Sia Lyrics scraper for her songs xD",
+  "version": "1.0.1",
+  "description": "Show lyrics of your favourite Sia song (or other songs) right in your terminal",
   "main": "src/Furler.js",
   "scripts": {
     "start": "node src/Furler.js",
@@ -14,10 +14,7 @@
   "keywords": [
     "Sia",
     "Furler",
-    "Lyrics",
-    "Taylor",
-    "Swift",
-    "scraper"
+    "Lyrics"
   ],
   "author": "Collin Grimm <collin.grimm@protonmail.ch> (https://collingrimm.me)",
   "license": "MIT",
