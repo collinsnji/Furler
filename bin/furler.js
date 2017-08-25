@@ -10,7 +10,6 @@
  */
 
 var furler = require('../src/Furler.js');
-var clear = require('clear');
 var figlet = require('figlet');
 var chalk = require('chalk');
 var argv = require('minimist')(process.argv.slice(2));
