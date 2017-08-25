@@ -8,37 +8,49 @@
  * @license MIT License https://collingrimm.me/LICENSE.txt
  */
 
-const fs = require('fs');
-const request = require('request');
-const cheerio = require('cheerio');
-const path = require('path');
-const { exec } = require('child_process');
+var fs = require('fs');
+var request = require('request');
+var cheerio = require('cheerio');
+var path = require('path');
+var { exec } = require('child_process');
 
-var Spacer = function (str) { return str.toLowerCase().match(/[^_\s\W]+/g).join(''); }
+var Spacer = function (str) { return str.toString().toLowerCase().match(/[^_\s\W]+/g).join(''); }
 var lyricsDir = path.join(path.resolve('.'), 'lyrics');
 
 /**
- * 
- * @param {String} song Name of song. Default => 'Elastic Heart'
+ * Main Furler Class. Can take an optional "artist name" as parameter.
  * @param {String} artist Name of artist. Default => 'Sia'
  */
-var Furler = function (song, artist) {
-    this.artist = artist || 'Sia';
-    this.song = song || 'Elastic Heart';
-    return this;
-}
-Furler.prototype.Lyrics = function () {
-    var Sia = this;
-    var LyricURL = `https://www.azlyrics.com/lyrics/${Spacer(Sia.artist)}/${Spacer(Sia.song)}.html`;
-    return request(LyricURL, function (error, response, songData) {
-        var $ = cheerio.load(songData);
-        if ($('html').children('body').toString().includes('Welcome to AZLyrics!')) { throw new Error('Song not found'); }
+class Furler {
+    constructor(artist) {
+        this.artist = artist || 'Sia';
+    }
+    /**
+     * Get the lyrics of a song and save it as a text file in the lyrics directory
+     * TODO: Make the lyrics display on the CLI
+     * 
+     * @param {String} song Name of song. Defaults to 'Elastic Heart'
+     */
+    Lyrics(song) {
+        song = song || 'Elastic Heart';
+        var LyricURL = `https://www.azlyrics.com/lyrics/${Spacer(this.artist)}/${Spacer(song)}.html`;
+        var finalLyrics = [];
+        request(LyricURL, function (error, response, songData) {
+            if (response.statusCode == 404) {
+                return console.log('Lyrics not found :(');
+            }
+            var $ = cheerio.load(songData);
 
-        var lyrics = $('.text-center').children('div').text().toString().replace(/^(\n){2,}/gm, "\r\n");
-        fs.writeFileSync(`${lyricsDir}/${Spacer(Sia.song)}.txt`, lyrics);
-        exec(`./siafy ${lyricsDir}/${Spacer(Sia.song)}.txt`);
-    });
-}
+            var lyrics = $('.text-center').children('div').text().toString().replace(/^(\n){2,}/gm, "\r\n").split('\n');
+            if (lyrics.includes('Welcome to AZLyrics!') || lyrics.length === 0) { console.error('Song not found'); }
 
+            for (var i = 0; i < lyrics.length; i++) {
+                if (lyrics[i].includes('Submit Corrections')) { break; }
+                finalLyrics.push(lyrics[i]);
+            }
+            console.log(finalLyrics.join('\n'));
+        });
+    }
+}
 module.exports = Furler;
-//var Sia = new Furler('Big Girls cry').Lyrics();
+//var Sia = new Furler('Breaking Benjamin').Lyrics('Angels Fall');

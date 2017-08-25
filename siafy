@@ -1,8 +1,0 @@
-#!/bin/sh
-
-song=$1
-arg1=`grep -n ' Submit Corrections' $song | cut -d: -f 1`
-arg2=`wc -l < $song`
-arg3=$(python -c "print (abs($arg1-$arg2)+1)")
-
-sed -i -n -e :a -e "1,$arg3!{P;N;D;};N;ba" $song
