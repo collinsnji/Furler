@@ -26,7 +26,10 @@
   },
   "homepage": "https://github.com/collinsnji/Furler#readme",
   "dependencies": {
+    "chalk": "^2.1.0",
     "cheerio": "^1.0.0-rc.2",
+    "figlet": "^1.2.0",
+    "minimist": "^1.2.0",
     "request": "^2.81.0"
   },
   "devDependencies": {
