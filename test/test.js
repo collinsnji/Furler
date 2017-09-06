@@ -13,11 +13,8 @@ describe('Furler Tests Running...', () => {
         ((typeof Furler).should.equal('function'));
         expect(ly instanceof Furler).to.equal(true);
     });
-    it('Should get and parse default lyrics', () => {
-        expect(ly.Lyrics()).not.to.throw();
-    });
-    it('Should throw if lyrics is not found', () => {
-        var lrx = new Furler('Bad Blood');
-        expect(function () { return lrx.Lyrics(); }).to.throw('Song not found');
+    it('Should show error message if lyrics is not found', () => {
+        var lrx = new Furler('Sia').Lyrics('Eye of a needle');
+        expect(lrx).to.be.undefined;
     });
 });
