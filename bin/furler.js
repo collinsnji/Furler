@@ -28,16 +28,16 @@ var usage = function () {
     console.log(`
     ${chalk.bold('Show lyrics of your favourite Sia song (or other songs) right in your CLI')}
 
-    ${chalk.bold('Usage')}: furler [options] 'Song Name - Artist'
+    ${chalk.bold('Usage')}: furler [options] Song Name - Artist
     ${chalk.bold('Options')}:
         -v          print version number and exit
         -h          show this help message
 
     ${chalk.bold('Examples')}: 
-        furler 'The Greatest'
-        furler 'Blank Space - Taylor Swift'
+        furler The Greatest
+        furler Blank Space - Taylor Swift
 
-    If no artist specified, the artist is defaults to Sia
+    If no artist specified, the artist defaults to Sia
     ${chalk.gray('(c) 2017 Collin Grimm <collin.grimm@protonmail.ch> | MIT License')}
     `)
     process.exit();
@@ -45,7 +45,7 @@ var usage = function () {
 
 var songMeta = parseArgument(argv._);
 if (argv.h) usage();
-if (argv.v) { console.log('1.0.0'); process.exit(); }
+if (argv.v) { console.log('1.0.4'); process.exit(); }
 
 if (songMeta.toString().length === 0) { usage(); }
 else {

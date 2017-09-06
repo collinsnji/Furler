@@ -1,42 +1,42 @@
 {
-  "name": "furler",
-  "version": "1.0.3",
-  "description": "Show lyrics of your favourite Sia song (or other songs) right in your terminal",
-  "main": "src/Furler.js",
-  "engines": {
-    "node": ">=4.8.3"
-  },
-  "bin": {
-    "furler": "./bin/furler.js"
-  },
-  "scripts": {
-    "start": "node src/Furler.js",
-    "test": "mocha test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/collinsnji/Furler.git"
-  },
-  "keywords": [
-    "Sia",
-    "Furler",
-    "Lyrics"
-  ],
-  "author": "Collin Grimm <collin.grimm@protonmail.ch> (https://collingrimm.me)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/collinsnji/Furler/issues"
-  },
-  "homepage": "https://github.com/collinsnji/Furler#readme",
-  "dependencies": {
-    "chalk": "^2.1.0",
-    "cheerio": "^1.0.0-rc.2",
-    "figlet": "^1.2.0",
-    "minimist": "^1.2.0",
-    "request": "^2.81.0"
-  },
-  "devDependencies": {
-    "chai": "^4.1.1",
-    "mocha": "^3.5.0"
-  }
+	"name": "furler",
+	"version": "1.0.4",
+	"description": "Show lyrics of your favourite Sia song (or other songs) right in your terminal",
+	"main": "src/Furler.js",
+	"engines": {
+		"node": ">=4.8.3"
+	},
+	"bin": {
+		"furler": "./bin/furler.js"
+	},
+	"scripts": {
+		"start": "node src/Furler.js",
+		"test": "mocha test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/collinsnji/Furler.git"
+	},
+	"keywords": [
+		"Sia",
+		"Furler",
+		"Lyrics"
+	],
+	"author": "Collin Grimm <collin.grimm@protonmail.ch> (https://collingrimm.me)",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/collinsnji/Furler/issues"
+	},
+	"homepage": "https://github.com/collinsnji/Furler#readme",
+	"dependencies": {
+		"chalk": "^2.1.0",
+		"cheerio": "^1.0.0-rc.2",
+		"figlet": "^1.2.0",
+		"minimist": "^1.2.0",
+		"request": "^2.81.0"
+	},
+	"devDependencies": {
+		"chai": "^4.1.1",
+		"mocha": "^3.5.0"
+	}
 }
