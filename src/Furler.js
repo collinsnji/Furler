@@ -32,7 +32,6 @@ class Furler {
      * @param {String} song Name of song. Defaults to 'Elastic Heart'
      */
     Lyrics(song) {
-        song = song || 'Elastic Heart';
         var LyricURL = `https://www.azlyrics.com/lyrics/${Spacer(this.artist)}/${Spacer(song)}.html`;
         var finalLyrics = [];
         request(LyricURL, function (error, response, songData) {
@@ -42,8 +41,6 @@ class Furler {
             var $ = cheerio.load(songData);
 
             var lyrics = $('.text-center').children('div').text().toString().replace(/^(\n){2,}/gm, "\r\n").split('\n');
-            if (lyrics.includes('Welcome to AZLyrics!') || lyrics.length === 0) { console.error('Song not found'); }
-
             for (var i = 0; i < lyrics.length; i++) {
                 if (lyrics[i].includes('Submit Corrections')) { break; }
                 finalLyrics.push(lyrics[i]);
@@ -53,4 +50,3 @@ class Furler {
     }
 }
 module.exports = Furler;
-//var Sia = new Furler('Breaking Benjamin').Lyrics('Angels Fall');
