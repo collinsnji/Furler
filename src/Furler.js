@@ -33,9 +33,24 @@ class Furler {
      */
     Lyrics(song) {
         var LyricURL = `https://www.azlyrics.com/lyrics/${Spacer(this.artist)}/${Spacer(song)}.html`;
+        var googleURL = `https://www.google.com/search?q=site%3Ahttps%3A%2F%2Fwww.azlyrics.com%2F+${this.artist}+${song}`
         var finalLyrics = [];
         request(LyricURL, function (error, response, songData) {
             if (response.statusCode == 404) {
+                // Request the google search
+                request(googleURL, function (error, response, body) {                     
+                    var $ = cheerio.load(body);
+                    // Get the name of the first result, usually the correct song name
+                    var googleResponse = $('#ires > ol > div:nth-child(1) > h3 > a').text();
+                    if (googleResponse) {
+                        // Clean title, for artist and song
+                        googleResponse = googleResponse.split("-");
+                        var suggestionArtist = googleResponse[0].replace("Lyrics", "").trim();
+                        var suggestionSong = googleResponse[1].trim();
+                        // Give the suggestion
+                        console.log(`Maybe you meant '${suggestionSong} - ${suggestionArtist}'`);
+                    }
+                });
                 return console.log('Lyrics not found :(');
             }
             var $ = cheerio.load(songData);
