@@ -1,3 +1,5 @@
+![Build Status](https://travis-ci.org/collinsnji/Furler.svg?branch=master "Travis Build")
+
 ```
  _____                  _
 |  ___|  _   _   _ __  | |   ___   _ __
