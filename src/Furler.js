@@ -48,7 +48,7 @@ class Furler {
                         var suggestionArtist = googleResponse[0].replace("Lyrics", "").trim();
                         var suggestionSong = googleResponse[1].trim();
                         // Give the suggestion
-                        console.log(`Maybe you meant '${suggestionSong} - ${suggestionArtist}'`);
+                        console.log(`Did you mean '${suggestionSong} - ${suggestionArtist}'`);
                     }
                 });
                 return console.log('Lyrics not found :(');
