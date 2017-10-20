@@ -1,13 +1,14 @@
 {
 	"name": "furler",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"description": "Show lyrics of your favourite Sia song (or other songs) right in your terminal",
 	"main": "src/Furler.js",
 	"engines": {
 		"node": ">=4.8.3"
 	},
 	"bin": {
-		"furler": "./bin/furler.js"
+		"furler": "./bin/furler.js",
+		"lyrics": "./bin/furler.js"
 	},
 	"scripts": {
 		"start": "node src/Furler.js",

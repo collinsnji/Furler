@@ -23,7 +23,7 @@ var lyricsDir = path.join(path.resolve('.'), 'lyrics');
  */
 class Furler {
     constructor(artist) {
-        this.artist = artist || 'Sia';
+        this.artist = artist;
     }
     /**
      * Get the lyrics of a song and save it as a text file in the lyrics directory
