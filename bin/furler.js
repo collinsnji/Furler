@@ -49,6 +49,10 @@ if (argv.v) { console.log('1.0.4'); process.exit(); }
 
 if (songMeta.toString().length === 0) { usage(); }
 else {
-    songMeta[1] = ((songMeta.length < 2 && songMeta[1] === undefined) ? 'Sia' : songMeta[1]);
-    var Sia = new furler(songMeta[1].toString()).Lyrics(songMeta[0].toString());
+    var lyArg = [];
+    for(var i = 0; i <songMeta.length; i++){
+        lyArg.push(songMeta[i].match(/[^_\s\W]+/g, ''));
+    }
+    lyArg[1] = ((lyArg.length < 2 && lyArg[1] === undefined) ? '' : lyArg[1]);
+    var Sia = new furler(lyArg[1]).Lyrics(lyArg[0].toString());
 }

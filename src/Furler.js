@@ -12,9 +12,11 @@ var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
 var path = require('path');
+var chalk = require('chalk');
 var { exec } = require('child_process');
 
 var Spacer = function (str) { return str.toString().toLowerCase().match(/[^_\s\W]+/g).join(''); }
+var whiteSpace = function(str){ return str.toString().trim(); }
 var lyricsDir = path.join(path.resolve('.'), 'lyrics');
 
 /**
@@ -32,26 +34,32 @@ class Furler {
      * @param {String} song Name of song. Defaults to 'Elastic Heart'
      */
     Lyrics(song) {
-        var LyricURL = `https://www.azlyrics.com/lyrics/${Spacer(this.artist)}/${Spacer(song)}.html`;
-        var googleURL = `https://www.google.com/search?q=site%3Ahttps%3A%2F%2Fwww.azlyrics.com%2F+${this.artist}+${song}`
+        var LyricURL = `https://www.azlyrics.com/lyrics/${this.artist}/${Spacer(song)}.html`;
+        var googleURL = `https://www.google.com/search?q=site%3Ahttps%3A%2F%2Fwww.metrolyrics.com%2F+${song}+${this.artist}`
         var finalLyrics = [];
+        //console.log(Spacer(this.artist), Spacer(song));
         request(LyricURL, function (error, response, songData) {
             if (response.statusCode == 404) {
                 // Request the google search
                 request(googleURL, function (error, response, body) {                     
                     var $ = cheerio.load(body);
                     // Get the name of the first result, usually the correct song name
-                    var googleResponse = $('#ires > ol > div:nth-child(1) > h3 > a').text();
+                    var googleResponse = $('.r > a').text();
                     if (googleResponse) {
                         // Clean title, for artist and song
-                        googleResponse = googleResponse.split("-");
-                        var suggestionArtist = googleResponse[0].replace("Lyrics", "").trim();
-                        var suggestionSong = googleResponse[1].trim();
-                        // Give the suggestion
-                        console.log(`Did you mean '${suggestionSong} - ${suggestionArtist}'`);
+                        var googleResponse = googleResponse.replace(/metroLyrics|lyrics|audio/ig, '').split('|')
+                        var suggestion = [];
+                        for(let i = 0; i < googleResponse.length; suggestion.push(googleResponse[i++].split('-')));
+                        console.log(suggestion);
+                        console.log(`${chalk.blue('Did you mean:')} ${chalk.green.bold(`"${whiteSpace(suggestion[0][1])} - ${whiteSpace(suggestion[0][0])}"`)}`);
+                        console.log(`\n${chalk.yellow('Other Suggestions')}`)
+                        
+                        for (let i = 1; i < 3; i++){
+                            console.log(`${suggestion[i][1].trim()} -  ${suggestion[i][0].trim()}`);
+                        }
                     }
                 });
-                return console.log('Lyrics not found :(');
+                return console.log(chalk.red('Lyrics not found :('));
             }
             var $ = cheerio.load(songData);
 
