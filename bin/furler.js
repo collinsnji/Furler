@@ -21,12 +21,13 @@ var parseArgument = function (arg) {
 
 var usage = function () {
     console.log(
-        chalk.yellow(
+        chalk.bold.yellow(
             figlet.textSync('Furler', { horizontalLayout: 'full' })
         )
     );
     console.log(`
-    ${chalk.bold('Show lyrics of your favourite Sia song (or other songs) right in your CLI')}
+    ${chalk.bold.blue('Show lyrics of your favourite right in your CLI.')}
+    ${chalk.bold.blue('Find lyrics of any song without knowing the song title or artist')}
 
     ${chalk.bold('Usage')}: furler [options] Song Name - Artist
     ${chalk.bold('Options')}:
@@ -34,10 +35,15 @@ var usage = function () {
         -h          show this help message
 
     ${chalk.bold('Examples')}: 
-        furler The Greatest
-        furler Blank Space - Taylor Swift
+        ${chalk.gray('Show lyrics of a particular song')}
+            furler The Greatest - Sia
+            furler Blank Space - Taylor Swift
 
-    If no artist specified, the artist defaults to Sia
+        ${chalk.gray('Find a particular song by using a phase in the song')}
+            furler I am holding on for dear life
+            furler This world would never be what I expected
+
+    ${chalk.white("furler can also be executed by using the word 'lyrics' Ex: lyrics The Greatest - Sia")};
     ${chalk.gray('(c) 2017 Collin Grimm <collin.grimm@protonmail.ch> | MIT License')}
     `)
     process.exit();
