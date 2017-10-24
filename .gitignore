@@ -62,3 +62,7 @@ typings/
 
 # Text files
 *.txt
+
+# Misc
+package-lock.json
+.vscode
