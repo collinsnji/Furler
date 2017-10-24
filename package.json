@@ -11,8 +11,8 @@
 		"lyrics": "./bin/furler.js"
 	},
 	"scripts": {
-		"start": "node src/Furler.js",
-		"test": "mocha test"
+		"start": "node ./bin/furler.js",
+		"test": "mocha ./test/test.js"
 	},
 	"repository": {
 		"type": "git",
