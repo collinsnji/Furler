@@ -51,7 +51,7 @@ var usage = function () {
 
 var songMeta = parseArgument(argv._);
 if (argv.h) usage();
-if (argv.v) { console.log('1.0.4'); process.exit(); }
+if (argv.v) { console.log('1.0.8'); process.exit(); }
 
 if (songMeta.toString().length === 0) { usage(); }
 else {
