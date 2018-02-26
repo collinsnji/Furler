@@ -8,16 +8,10 @@
  * @license MIT License https://collingrimm.me/LICENSE.txt
  */
 
-var request = require('request');
-var cheerio = require('cheerio');
-var chalk = require('chalk');
-var { exec } = require('child_process');
-
-var Spacer = function (str) {
-    if (!str) return;
-    return str.toString().toLowerCase().match(/[^_\s\W]+/g).join('');
-}
-var whiteSpace = function (str) { return str.toString().trim(); }
+const request = require('request');
+const cheerio = require('cheerio');
+const chalk = require('chalk');
+const { exec } = require('child_process');
 
 /**
  * Main Furler Class. Can take an optional "artist name" as parameter.
@@ -36,7 +30,8 @@ class Furler {
     RemoveWhiteSpace(str) { return str.toString().trim(); }
     Spacer(str) {
         if (!str) return;
-        return str.toString().toLowerCase().match(/[^_\s\W]+/g).join('');
+        let capitalise = str.toString().split(' ').map(word => word.toLowerCase().charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+        return capitalise.match(/[^_\s\W]+/g).join('-');
     }
     /**
      * Get the lyrics of a song and display it on the terminal
@@ -44,58 +39,42 @@ class Furler {
      * @param {String} song Name of song. Defaults to 'Elastic Heart'
      */
     Lyrics(song) {
-        var self = this;
-        var LyricURL = `https://www.azlyrics.com/lyrics/${self.Spacer(self.artist)}/${self.Spacer(song)}.html`;
-        var googleURL = `https://www.google.com/search?q=site%3Ahttps%3A%2F%2Fwww.metrolyrics.com%2F+${song}+${self.artist}`
-        /**
-         * Make request to pull the lyrics
-         */
-        request(LyricURL, function (error, response, songData) {
-            var finalLyrics = [];
-            var suggestion = [];
+        let self = this;
+        let LyricURL = `https://www.musixmatch.com/lyrics/${self.Spacer(self.artist)}/${self.Spacer(song)}`;
+        let suggestionURL = `https://www.google.com/search?q=site%3Ahttps%3A%2F%2Fwww.musixmatch.com%2F+${song}+${self.artist}`
+        return request(LyricURL, (error, response, songData) => {
             if (response.statusCode == 404) {
-                /**
-                 * If the lyric is not found, do a Google Search and return the parsed results
-                 */
-                request(googleURL, function (error, response, body) {
-                    var $ = cheerio.load(body);
-                    var googleResponse = $('.r > a').text();
-                    if (googleResponse) {
-                        /**
-                         *  Parse song title, and artist and return an array
-                         */
-                        var googleResponse = googleResponse.replace(/metroLyrics|lyrics|\.\.\.|video|audio/ig, '').split('|')
-
-                        for (let i = 0; i < googleResponse.length; suggestion.push(googleResponse[i++].split('-')));
-
-                        /**
-                         * Show the results of the parsing and the suggestions
-                         */
-                        console.log(`${chalk.blue('Did you mean:')} ${chalk.green.bold(`"${self.RemoveWhiteSpace(suggestion[0][1])} - ${self.RemoveWhiteSpace(suggestion[0][0])}"`)}`);
-                        console.log(`\n${chalk.yellow('Here are some suggestions')}`)
-
-                        for (let i = 1; i < 10; i++) {
-                            if (suggestion[i] === undefined ||
-                                suggestion[i].length <= 1 ||
-                                suggestion[i].length > 2) {
-                                i++;
-                            }
-                            else {
-                                console.log(`${suggestion[i][1].toString().trim()} -  ${suggestion[i][0].toString().trim()}`);
-                            }
-                        }
-                    }
-                });
+                self.LyricSuggestion(suggestionURL);
                 return console.log(chalk.red('Lyrics not found :('));
             }
-            var $ = cheerio.load(songData);
+            let $ = cheerio.load(songData);
+            let lyrics = $('.mxm-lyrics__content').text().toString().replace(/^(\n){2,}/gm, "\r\n");
+            console.log(`'${song}' by ${self.artist}\n\n${lyrics}`);
+        });
+    }
+    LyricSuggestion(url) {
+        let self = this;
+        return request(url, (error, response, body) => {
+            let $ = cheerio.load(body);
+            let res = $('.r > a').text();
+            let suggestion = [];
+            if (res) {
+                let googleResponse = res.replace(/musixmatch|lyrics|\.\.\.|http|video|audio/ig, '').split('|');
+                for (let i = 0; i < googleResponse.length; suggestion.push(googleResponse[i++].split('-')));
+                console.log(`${chalk.blue('Did you mean:')} ${chalk.green.bold(`"${self.RemoveWhiteSpace(suggestion[0][1])} - ${self.RemoveWhiteSpace(suggestion[0][0])}"`)}`);
+                console.log(`\n${chalk.yellow('Here are some suggestions')}`)
 
-            var lyrics = $('.text-center').children('div').text().toString().replace(/^(\n){2,}/gm, "\r\n").split('\n');
-            for (var i = 0; i < lyrics.length; i++) {
-                if (lyrics[i].includes('Submit Corrections')) { break; }
-                finalLyrics.push(lyrics[i]);
+                for (let i = 1; i < 10; i++) {
+                    if (suggestion[i] === undefined ||
+                        suggestion[i].length <= 1 ||
+                        suggestion[i].length > 2) {
+                        i++;
+                    }
+                    else {
+                        console.log(`${suggestion[i][1].toString().trim()} -  ${suggestion[i][0].toString().trim()}`);
+                    }
+                }
             }
-            console.log(finalLyrics.join('\n'));
         });
     }
 }
